@@ -1,0 +1,41 @@
+/*  Assign 7
+
+1. Find Specific Values: Find all documents where the "status" field is equal to "active."
+db.collectionName.find({ status: "active" })
+2. FindOne Specific Value: Find one document where the "username" is "johndoe."
+db.collectionName.findOne({ username: "johndoe" })
+3. Query Criteria (AND condition):Find documents with "status" equal to "active" and "category" equal to "electronics."
+db.collectionName.find({ status: "active", category: "electronics" })
+4. OR Queries: Find documents where the "status" is "active" or "category" is "clothing."
+db.collectionName.find({ $or: [{ status: "active" }, { category: "clothing" }] })
+5. $not Query: Find documents where the "status" is not "archived."
+db.collectionName.find({ status: { $not: "archived" } })
+6 . Conditional Semantic Query: Find documents where the "quantity" is greater than 50.
+db.collectionName.find({ quantity: { $gt: 50 } })
+7. $where Query: Find documents where the value of "field1" plus "field2" is equal to 10.
+db.collectionName.find({ $where: "this.field1 + this.field2 === 10" })
+8. Cursors with Limit and Skip: Get the first 5 documents where "status" is "active," skipping the first 2.
+db.collectionName.find({ status: "active" }).skip(2).limit(5)
+9. Cursors with Sort: Find all documents sorted by "createdAt" in descending order.
+db.collectionName.find().sort({ createdAt: -1 })
+10. Database Commands: Use the db.stats() command to retrieve statistics about the database.
+db.runCommand({ dbStats: 1 })  */
+
+use ecommerce
+db.products.insertMany([
+   { name: "Laptop", category: "electronics", status: "active", quantity: 100, createdAt: new Date() },
+   { name: "T-shirt", category: "clothing", status: "active", quantity: 50, createdAt: new Date() },
+   { name: "Headphones", category: "electronics", status: "active", quantity: 75, createdAt: new Date() },
+   { name: "Jeans", category: "clothing", status: "inactive", quantity: 30, createdAt: new Date() },
+   { name: "Smartphone", category: "electronics", status: "active", quantity: 90, createdAt: new Date() }
+ ])
+db.products.find({ status: "active" })
+db.products.findOne({ name: "Laptop" })
+db.products.find({ status: "active", category: "electronics" })
+db.products.find({ $or: [{ status: "active" }, { category: "clothing" }] })
+db.products.find({ status: { $ne: "inactive" } })
+db.products.find({ quantity: { $gt: 50 } })
+db.products.find({ $where: "this.quantity + 10 === 100" })
+db.products.find({ status: "active" }).skip(1).limit(3)
+db.products.find().sort({ quantity: -1 })
+db.runCommand({ dbStats : 1})
